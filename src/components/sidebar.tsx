@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { DottedSeparator } from "./DottedSeparator";
 import { Navigation } from "./navigation";
+import { WorkspaceSwitcher } from "./workspace-switcher";
 
 function Sidebar() {
   return (
@@ -11,7 +12,9 @@ function Sidebar() {
       <Link href="/">
         <Image src="/logo.svg" alt="logo" width={152} height={50}></Image>
       </Link>
-      <DottedSeparator></DottedSeparator>
+      <DottedSeparator className="py-7"></DottedSeparator>
+      <WorkspaceSwitcher />
+      <DottedSeparator className="py-7"></DottedSeparator>
       <Navigation></Navigation>
     </aside>
   );

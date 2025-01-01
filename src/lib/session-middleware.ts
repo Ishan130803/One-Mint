@@ -45,5 +45,6 @@ export const sessionMiddleware = createMiddleware<MiddlewareType>(async (c, next
   c.set("storage", storage);
   c.set("user", user);
 
+
   await next();
 });

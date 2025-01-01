@@ -1,6 +1,5 @@
 import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
-// import { z } from "zod";
 import { loginSchema, signUpSchema } from "../schema";
 import { createAdminClient } from "@/lib/appwrite";
 import { ID } from "node-appwrite";
@@ -9,9 +8,8 @@ import { AUTH_COOKIE } from "../constants";
 import { sessionMiddleware } from "@/lib/session-middleware";
 
 const app = new Hono()
-  .get("/current", sessionMiddleware, (c) => {
+  .get("/current", sessionMiddleware,async (c) => {
     const user = c.get("user")
-
     return c.json({data : user})
   })
   .post("/login", zValidator("json", loginSchema), async (c) => {
