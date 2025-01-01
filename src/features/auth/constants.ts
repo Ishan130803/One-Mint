@@ -1,0 +1,1 @@
+export const AUTH_COOKIE = "one-mint-session-cookie"

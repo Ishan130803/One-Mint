@@ -17,22 +17,23 @@ import {
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { loginSchema } from "../schema";
+import { useLogin } from "../api/use-login";
 
-const formSchema = z.object({
-  email: z.string().trim().email(),
-  password: z.string().min(1, "Required"),
-});
 
 function SignInCard() {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const { mutate, isPending } = useLogin()
+
+  const form = useForm<z.infer<typeof loginSchema>>({
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+  const onSubmit = (values: z.infer<typeof loginSchema>) => {
+    mutate(values)
+    
   };
 
   return (
@@ -80,7 +81,7 @@ function SignInCard() {
             />
             <Button
               type={"submit"}
-              disabled={false}
+              disabled={isPending}
               size={"lg"}
               className="w-full"
             >
@@ -97,7 +98,7 @@ function SignInCard() {
           variant={"secondary"}
           size={"lg"}
           className="w-full"
-          disabled={false}
+          disabled={isPending}
         >
           <FcGoogle className="mr-2 size-5" />
           Login with Google
@@ -106,7 +107,7 @@ function SignInCard() {
           variant={"secondary"}
           size={"lg"}
           className="w-full"
-          disabled={false}
+          disabled={isPending}
         >
           <FaGithub className="mr-2 size-5"></FaGithub>
           Login with Github

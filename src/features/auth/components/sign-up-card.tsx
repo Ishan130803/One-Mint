@@ -17,15 +17,15 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import Link from "next/link";
+import { signUpSchema } from "../schema";
+import { useRegister } from "../api/use-register";
 
-const formSchema = z.object({
-  name: z.string().trim().min(1, "Required"),
-  email: z.string().trim().email(),
-  password: z.string().min(8, "Minimum 8 Characters Required"),
-});
+
+
+
 function SignUpCard() {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof signUpSchema>>({
+    resolver: zodResolver(signUpSchema),
     defaultValues: {
       name: "",
       email: "",
@@ -33,9 +33,12 @@ function SignUpCard() {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+  const {mutate, isPending} = useRegister()
+
+  const onSubmit = (values: z.infer<typeof signUpSchema>) => {
+    mutate(values)
   };
+
 
   return (
     <Card className="w-full h-full md:w-[487px] border-none shadow-none">
@@ -98,7 +101,7 @@ function SignUpCard() {
             />
             <Button
               type={"submit"}
-              disabled={false}
+              disabled={isPending}
               size={"lg"}
               className="w-full"
             >
@@ -115,7 +118,7 @@ function SignUpCard() {
           variant={"secondary"}
           size={"lg"}
           className="w-full"
-          disabled={false}
+          disabled={isPending}
         >
           <FcGoogle className="mr-2 size-5" />
           Login with Google
@@ -124,7 +127,7 @@ function SignUpCard() {
           variant={"secondary"}
           size={"lg"}
           className="w-full"
-          disabled={false}
+          disabled={isPending}
         >
           <FaGithub className="mr-2 size-5"></FaGithub>
           Login with Github
