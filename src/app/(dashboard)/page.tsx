@@ -1,14 +1,20 @@
-import { getCurrent } from "@/features/auth/actions";
-import { CreateWorkspaceForm } from "@/features/workspaces/components/create-workspace-form";
+
+import { getCurrent } from "@/features/auth/queries";
+import { getWorkspaces } from "@/features/workspaces/queries";
 import { redirect } from "next/navigation";
 
-async function Home() {
-  const user = await getCurrent()
-  if (!user) redirect("/sign-in")
-    
-  return <div className="bg-neutral-500">
-    <CreateWorkspaceForm />
-  </div>;
-}
+async function DashboardPage() {
+  const user = await getCurrent();
+  if (!user) redirect("/sign-in");
 
-export default Home;
+  const workspaces = await getWorkspaces();
+
+  if (workspaces.total === 0) {
+    redirect("/workspaces/create");
+  } else {
+    return redirect(`/workspaces/${workspaces.documents[0].$id}`);
+  }
+
+  return <></>
+}
+export default DashboardPage;
