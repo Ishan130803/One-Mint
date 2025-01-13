@@ -5,6 +5,7 @@ import Link from "next/link";
 import { DottedSeparator } from "./DottedSeparator";
 import { Navigation } from "./navigation";
 import { WorkspaceSwitcher } from "./workspace-switcher";
+import { Projects } from "./projects";
 
 function Sidebar() {
   return (
@@ -16,6 +17,7 @@ function Sidebar() {
       <WorkspaceSwitcher />
       <DottedSeparator className="py-7"></DottedSeparator>
       <Navigation></Navigation>
+      <Projects />
     </aside>
   );
 }

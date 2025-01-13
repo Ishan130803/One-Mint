@@ -71,8 +71,8 @@ function WorkspaceAvatar({ name, className, image }: WorkspaceAvatarProps) {
     );
   }
   return (
-    <Avatar className={cn("size-10", className)}>
-      <AvatarFallback className="text-white bg-blue-600 font-semibold text-lg uppercase">
+    <Avatar className={cn("size-10 rounded-md", className)}>
+      <AvatarFallback className="text-white bg-blue-600 font-semibold text-lg uppercase rounded-none">
         {name.charAt(0) ?? "W"}
       </AvatarFallback>
     </Avatar>
