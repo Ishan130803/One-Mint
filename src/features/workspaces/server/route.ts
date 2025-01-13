@@ -217,7 +217,7 @@ const app = new Hono()
         return c.json({ error: "Invalid Invite Code" }, 400);
       }
 
-      await databases.createDocument(DATABASE_ID, WORKSPACE_ID, ID.unique(), {
+      await databases.createDocument(DATABASE_ID, MEMBER_ID, ID.unique(), {
         workspaceId,
         userId: user.$id,
         role: MemberRole.MEMBER,
