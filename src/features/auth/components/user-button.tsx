@@ -7,8 +7,8 @@ import {
   DropdownMenu,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuContent,
 } from "@/components/ui/dropdown-menu";
-import { DropdownMenuContent } from "@radix-ui/react-dropdown-menu";
 import { DottedSeparator } from "@/components/DottedSeparator";
 import { useLogout } from "../api/use-logout";
 
@@ -32,7 +32,7 @@ function UserButton() {
 
   const avatarFallback = name
     ? name.charAt(0).toUpperCase()
-    : (email ? email.charAt(0).toUpperCase(): undefined) ?? "U";
+    : (email ? email.charAt(0).toUpperCase() : undefined) ?? "U";
 
   return (
     <DropdownMenu modal={false}>

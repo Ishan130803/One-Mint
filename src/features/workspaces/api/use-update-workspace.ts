@@ -2,6 +2,7 @@
 import { client } from "@/lib/rpc";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { InferRequestType, InferResponseType } from "hono";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 type ResponseType = InferResponseType<
@@ -13,6 +14,7 @@ type RequestType = InferRequestType<
 >;
 
 function useUpdateWorkspace() {
+  const router = useRouter();
   const queryClient = useQueryClient();
   const mutation = useMutation<ResponseType, Error, RequestType>({
     mutationFn: async ({ form, param }) => {
@@ -27,8 +29,9 @@ function useUpdateWorkspace() {
     },
     onSuccess: ({ data }) => {
       queryClient.invalidateQueries({ queryKey: ["workspaces"] });
-      queryClient.invalidateQueries({queryKey:["workspace", data.$id]})
+      queryClient.invalidateQueries({ queryKey: ["workspace", data.$id] });
       toast.success("Workspace Updated!");
+      router.refresh();
     },
     onError: () => {
       toast.error("Failed to create Workspace");

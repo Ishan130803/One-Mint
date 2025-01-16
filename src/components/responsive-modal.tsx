@@ -1,7 +1,6 @@
 import React from "react";
 import { useMedia } from "react-use";
-import { Dialog } from "./ui/dialog";
-import { DialogContent } from "@radix-ui/react-dialog";
+import { Dialog, DialogContent } from "./ui/dialog";
 import { Drawer, DrawerContent } from "./ui/drawer";
 
 type ResponsiveModalProps = {

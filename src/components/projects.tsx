@@ -27,7 +27,7 @@ export const Projects = () => {
         />
       </div>
       {data?.documents.map((project) => {
-        const href = `/workspace/${workspaceId}/projects/${project.$id}`;
+        const href = `/workspaces/${workspaceId}/projects/${project.$id}`;
         const isActive = pathname === href;
 
         return (
@@ -55,7 +55,7 @@ type ProjectAvatarProps = {
   fallbackClassName?: string;
 };
 
-function ProjectAvatar({
+export function ProjectAvatar({
   name,
   className,
   image,
@@ -74,7 +74,7 @@ function ProjectAvatar({
     <Avatar className={cn("size-8 rounded-md", className)}>
       <AvatarFallback
         className={cn(
-          "text-white bg-blue-600 font-semibold text-sm uppercase",
+          "text-white bg-blue-600 font-semibold text-sm uppercase rounded-none",
           fallbackClassName
         )}
       >
