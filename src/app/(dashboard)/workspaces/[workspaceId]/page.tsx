@@ -8,7 +8,7 @@ async function WorkspaceIdPage() {
   
   return (
     <div>
-      content
+      workspace
     </div>
   );
 }

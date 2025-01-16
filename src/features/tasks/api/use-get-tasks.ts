@@ -2,15 +2,15 @@
 import { client } from "@/lib/rpc";
 import { useQuery } from "@tanstack/react-query";
 
-type useGetProjectsProps = {
+type useGetTasksProps = {
   workspaceId: string;
 };
 
-function useGetProjects({ workspaceId }: useGetProjectsProps) {
+function useGetTasks({ workspaceId }: useGetTasksProps) {
   const query = useQuery({
-    queryKey: ["projects"],
+    queryKey: ["tasks", workspaceId],
     queryFn: async () => {
-      const response = await client.api.projects.$get({
+      const response = await client.api.tasks.$get({
         query: { workspaceId },
       });
 
@@ -26,4 +26,4 @@ function useGetProjects({ workspaceId }: useGetProjectsProps) {
   return query;
 }
 
-export { useGetProjects };
+export { useGetTasks };
