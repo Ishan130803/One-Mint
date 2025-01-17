@@ -59,6 +59,7 @@ function CreateTaskForm({
       {
         onSuccess: () => {
           form.reset();
+          onCancel?.();
         },
       }
     );

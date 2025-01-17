@@ -3,10 +3,10 @@ import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { createTaskSchema } from "../schemas";
 import { getMember } from "@/features/members/utils";
-import { DATABASE_ID, PROJECT_ID, TASKS_ID } from "@/config";
+import { DATABASE_ID, MEMBER_ID, PROJECT_ID, TASKS_ID } from "@/config";
 import { ID, Query } from "node-appwrite";
 import { z } from "zod";
-import { TaskStatus } from "../types";
+import { Task, TaskStatus } from "../types";
 import { createAdminClient } from "@/lib/appwrite";
 import { Project } from "@/features/projects/types";
 
@@ -73,7 +73,7 @@ const app = new Hono()
         query.push(Query.search("name", search));
       }
 
-      const tasks = await databases.listDocuments(DATABASE_ID, TASKS_ID, query);
+      const tasks = await databases.listDocuments<Task>(DATABASE_ID, TASKS_ID, query);
 
       const projectIds = tasks.documents.map((task) => task.projectId);
       const assigneeIds = tasks.documents.map((task) => task.assigneeId);
@@ -83,20 +83,22 @@ const app = new Hono()
         PROJECT_ID,
         projectIds.length > 0 ? [Query.contains("$id", projectIds)] : []
       );
-      const members = await databases.listDocuments<Project>(
+      const members = await databases.listDocuments(
         DATABASE_ID,
-        PROJECT_ID,
+        MEMBER_ID,
         assigneeIds.length > 0 ? [Query.contains("$id", assigneeIds)] : []
       );
 
-      const assignees = await Promise.all(members.documents.map(async (member) => {
-        const user = await users.get(member.userId)
-        return {
-          ...member, 
-          name : user.name, 
-          email : user.email
-        }
-      }))
+      const assignees = await Promise.all(
+        members.documents.map(async (member) => {
+          const user = await users.get(member.userId);
+          return {
+            ...member,
+            name: user.name,
+            email: user.email,
+          };
+        })
+      );
 
       const populatedTasks = tasks.documents.map((task) => {
         const project = projects.documents.find(
@@ -107,16 +109,18 @@ const app = new Hono()
         );
 
         return {
-          ...task, 
-          project, 
-          assignee
-        }
+          ...task,
+          project,
+          assignee,
+        };
       });
 
-      return c.json({data : {
-        ...tasks, 
-        documents: populatedTasks
-      }})
+      return c.json({
+        data: {
+          ...tasks,
+          documents: populatedTasks,
+        },
+      });
     }
   )
   .post(
