@@ -17,8 +17,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
-import { useCreateTasks } from "../api/use-create-task";
 import { createTaskSchema } from "../schemas";
 import { DatePicker } from "@/components/date-picker";
 import {
@@ -29,33 +27,38 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { MemberAvatar } from "@/features/members/components/member-avatar";
-import { TaskStatus } from "../types";
+import { Task, TaskStatus } from "../types";
 import { ProjectAvatar } from "@/components/projects";
+import { useUpdateTask } from "../api/use-update-task";
 
-type CreateTaskFormProps = {
+type EditTaskFormProps = {
   onCancel?: () => void;
   projectOptions: { id: string; name: string; imageUrl: string }[];
   memberOptions: { id: string; name: string }[];
+  initialValues: Task;
 };
 
-function CreateTaskForm({
+function EditTaskForm({
   onCancel,
   memberOptions,
   projectOptions,
-}: CreateTaskFormProps) {
-  const workspaceId = useWorkspaceId();
-  const { mutate, isPending } = useCreateTasks();
+  initialValues,
+}: EditTaskFormProps) {
+  const { mutate, isPending } = useUpdateTask();
 
   const form = useForm<z.infer<typeof createTaskSchema>>({
     resolver: zodResolver(createTaskSchema),
     defaultValues: {
-      workspaceId,
+      ...initialValues,
+      dueDate: initialValues.dueDate
+        ? new Date(initialValues.dueDate)
+        : undefined,
     },
   });
 
   const onSubmit = (values: z.infer<typeof createTaskSchema>) => {
     mutate(
-      { json: { ...values, workspaceId } },
+      { json: values, param: { taskId: initialValues.$id } },
       {
         onSuccess: () => {
           form.reset();
@@ -67,7 +70,7 @@ function CreateTaskForm({
   return (
     <Card className="w-full h-full border-none shadow-none">
       <CardHeader className="flex p-7">
-        <CardTitle className="text-xl font-bold">Create a new task</CardTitle>
+        <CardTitle className="text-xl font-bold">Edit a task</CardTitle>
       </CardHeader>
       <div className="px-7">
         <DottedSeparator />
@@ -219,7 +222,7 @@ function CreateTaskForm({
                   size="lg"
                   variant={"primary"}
                 >
-                  Create Task
+                  Save Changes
                 </Button>
               </div>
             </div>
@@ -230,4 +233,4 @@ function CreateTaskForm({
   );
 }
 
-export { CreateTaskForm };
+export { EditTaskForm };

@@ -5,7 +5,7 @@ import { InferRequestType, InferResponseType } from "hono";
 import { toast } from "sonner";
 
 type ResponseType = InferResponseType<
-  (typeof client.api.projects)["$post"],
+  (typeof client.api.tasks)["$post"],
   200
 >;
 type RequestType = InferRequestType<(typeof client.api.tasks)["$post"]>;
@@ -16,7 +16,7 @@ function useCreateTasks() {
     mutationFn: async ({ json }) => {
       const response = await client.api.tasks["$post"]({ json });
       if (!response.ok) {
-        throw new Error("Failed to create project");
+        throw new Error("Failed to create task");
       }
       return await response.json();
     },
