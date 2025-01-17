@@ -25,7 +25,7 @@ function useUpdateTask() {
     onSuccess: ({data}) => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
       queryClient.invalidateQueries({queryKey: ["task", data.$id]})
-      toast.success("Task Created!");
+      toast.success("Task Updated!");
     },
     onError: () => {
       toast.error("Failed to update Task");
