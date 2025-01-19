@@ -169,7 +169,7 @@ const CustomToolbar = ({ date, onNavigate }: CustomToolbarProps) => {
         <p className="text-sm">{format(date, "MMMM yyyy")}</p>
       </div>
       <Button
-        onClick={() => onNavigate("PREV")}
+        onClick={() => onNavigate("NEXT")}
         variant={"secondary"}
         size={"icon"}
         className="flex items-center"

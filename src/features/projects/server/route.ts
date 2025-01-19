@@ -33,7 +33,6 @@ const app = new Hono()
         return c.json({ error: "Unauthorized" }, 401);
       }
 
-      console.log("Here");
 
       const projects = await databases.listDocuments(DATABASE_ID, PROJECT_ID, [
         Query.equal("workspaceId", workspaceId),
