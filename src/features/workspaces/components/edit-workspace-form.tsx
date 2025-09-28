@@ -142,8 +142,8 @@ function EditWorkspaceForm({
                 : () => router.push(`/workspaces/${initialValues.$id}`)
             }
           >
+            <ArrowLeftIcon className="h-4" />
             Back
-            <ArrowLeftIcon className="size-4 mr-4" />
           </Button>
           <CardTitle className="text-xl font-bold">
             {initialValues.name}

@@ -5,7 +5,7 @@ import {
   GoHome,
   GoHomeFill,
 } from "react-icons/go";
-import { Settings, UsersIcon } from "lucide-react";
+import { CloudCog, Settings, UsersIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
@@ -13,7 +13,7 @@ import { usePathname } from "next/navigation";
 const routes = [
   {
     label: "Home",
-    href: "/",
+    href: "",
     icon: GoHome,
     activeIcon: GoHomeFill,
   },
@@ -48,7 +48,7 @@ function Navigation() {
         const fullhref = `/workspaces/${workspaceId}${item.href}`
         const isActive = pathname === fullhref;
         const Icon = isActive ? item.activeIcon : item.icon;
-
+        console.log(pathname, fullhref)
         return (
           <Link key={item.href} href={fullhref}>
             <div
