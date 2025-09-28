@@ -2,5 +2,5 @@
   "tailwindCSS.experimental.classRegex": [
     ["clsx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
   ],
-  "workbench.iconTheme": "material-icon-theme"
+  "workbench.iconTheme": "vscode-icons"
 }

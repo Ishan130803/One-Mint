@@ -69,7 +69,7 @@ function SignInCard() {
                 <FormItem>
                   <FormControl>
                     <Input
-                      type="text"
+                      type="password"
                       placeholder="Enter password"
                       {...field}
                     ></Input>
